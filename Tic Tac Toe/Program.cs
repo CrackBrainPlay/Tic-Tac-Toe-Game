@@ -8,7 +8,7 @@ namespace Tic_Tac_Toe
 {  
     internal class Program
     {
-        static void PlayingField(int FieldSize, char[,] myArray)
+        static void DrawingPlayingField(int FieldSize, char[,] ValuesInPlayingField)
         {
             Console.Write("  ");
             for (int j = 0; j < FieldSize; j++)
@@ -21,164 +21,162 @@ namespace Tic_Tac_Toe
                 Console.Write($"{i + 1} ");
                 for (int j = 0; j < FieldSize; j++)
                 {
-                    Console.Write($"[{myArray[i, j]}]");
+                    Console.Write($"[{ValuesInPlayingField[i, j]}]");
                 }
                 Console.WriteLine();
             }
             return;
         }
 
-        static bool CheckWin(char[,] myArray,char Znak)
+        static bool WinCheck(char[,] ValuesInPlayingField,char Znak)
         {
-            int Counter = 0;
-            bool WIN = false;
-            for (int i = 0; i < myArray.GetLength(0); i++)
+            int CounterVictory;
+            for (int i = 0; i < ValuesInPlayingField.GetLength(0); i++)
             {
-                Counter = 0;
-                for (int j = 0; j < myArray.GetLength(1); j++)
+                CounterVictory = 0;
+                for (int j = 0; j < ValuesInPlayingField.GetLength(1); j++)
                 {
-                    if (myArray[i, j] == Znak)
+                    if (ValuesInPlayingField[i, j] == Znak)
                     {
-                        Counter += 1;
+                        CounterVictory++;
                     }
-                    if (Counter == myArray.GetLength(0))
+                    if (CounterVictory == ValuesInPlayingField.GetLength(0))
                     {
-                        WIN = true;
-                        return WIN;
+                        return true;
                     }
                 }
 
             }
-            for (int i = 0; i < myArray.GetLength(0); i++)
+            for (int i = 0; i < ValuesInPlayingField.GetLength(0); i++)
             {
-                Counter = 0;
-                for (int j = 0; j < myArray.GetLength(1); j++)
+                CounterVictory = 0;
+                for (int j = 0; j < ValuesInPlayingField.GetLength(1); j++)
                 {
-                    if (myArray[j, i] == Znak)
+                    if (ValuesInPlayingField[j, i] == Znak)
                     {
-                        Counter += 1;
+                        CounterVictory++;
                     }
-                    if (Counter == myArray.GetLength(0))
+                    if (CounterVictory == ValuesInPlayingField.GetLength(0))
                     {
-                        WIN = true;
-                        return WIN;
+                        return true;
                     }
                 }
             }
-            Counter = 0;
-            for (int i = 0; i < myArray.GetLength(0); i++)
+            CounterVictory = 0;
+            for (int i = 0; i < ValuesInPlayingField.GetLength(0); i++)
             {
-                if (myArray[i, i] == Znak)
+                if (ValuesInPlayingField[i, i] == Znak)
                 {
-                    Counter += 1;
+                    CounterVictory++;
                 }
-                if (Counter == myArray.GetLength(0))
+                if (CounterVictory == ValuesInPlayingField.GetLength(0))
                 {
-                    WIN = true;
-                    return WIN;
+                    return true;
                 }
             }
-            Counter = 0;
-            for (int i = myArray.GetLength(0) - 1; i >= 0; i--)
+            CounterVictory = 0;
+            for (int i = ValuesInPlayingField.GetLength(0) - 1; i >= 0; i--)
             {
-                if (myArray[i, i] == Znak)
+                if (ValuesInPlayingField[i, i] == Znak)
                 {
-                    Counter += 1;
+                    CounterVictory++;
                 }
-                if (Counter == myArray.GetLength(0))
+                if (CounterVictory == ValuesInPlayingField.GetLength(0))
                 {
-                    WIN = true;
-                    return WIN;
+                    return true;
                 }
             }
-
-            return WIN;
+            return false;
         }
 
-        
+        static bool CheckIsCellFree(char[,] ValuesInPlayingField, int VerticalCoordinate, int HorizontalСoordinate)
+        {
+            if (ValuesInPlayingField[VerticalCoordinate - 1, HorizontalСoordinate - 1] == '\0')
+            { 
+                return true; 
+            }
+            else
+            {
+                return false;
+            }
+                
+        }
 
             static void Main(string[] args)
         {
             int FieldSize;
-            string str;
-            bool Win;
-            char[,] myArray;
-            int x, y;
-            bool GameOver = false;
-            char Znak;
             int CounterToDraw = 0;
+            int VerticalCoordinate, HorizontalСoordinate;
+            char SignСheck;
+            char[,] ValuesInPlayingField;
+            bool GameOver = false;
+            bool IsCellFree = false;
             Console.WriteLine("Введите размер поля, для игры: ");
-            str = Console.ReadLine();
+            FieldSize = int.Parse(Console.ReadLine());
             Console.Clear();
-            FieldSize = int.Parse(str);
-            myArray = new char[FieldSize, FieldSize];
-            PlayingField(FieldSize,myArray);
+            ValuesInPlayingField = new char[FieldSize, FieldSize];
+            DrawingPlayingField(FieldSize,ValuesInPlayingField);
             Console.WriteLine();
 
-            bool check = false;
             do
             {
                 do
                 {
                     Console.WriteLine("\nХодит первый игрок!");
                     Console.Write("\nВведите координату по вертикали: ");
-                    x = int.Parse(Console.ReadLine());
+                    VerticalCoordinate = int.Parse(Console.ReadLine());
                     Console.WriteLine();
                     Console.Write("Введите координату по горизонтали: ");
-                    y = int.Parse(Console.ReadLine());
-                    if (myArray[x - 1, y - 1] == '\0')
+                    HorizontalСoordinate = int.Parse(Console.ReadLine());
+                    if (CheckIsCellFree(ValuesInPlayingField, VerticalCoordinate, HorizontalСoordinate))
                     {
-                        check = true;
-                        myArray[x - 1, y - 1] = 'X';
+                        ValuesInPlayingField[VerticalCoordinate - 1, HorizontalСoordinate - 1] = 'X';
                     }
-                } while (check == false);
+                } while (IsCellFree == false);
                 Console.Clear();
-                PlayingField(FieldSize, myArray);
+                DrawingPlayingField(FieldSize, ValuesInPlayingField);
                 Console.WriteLine();
-                Znak = 'X';
-                Win = CheckWin(myArray,Znak);
-                if (Win == true)
+                SignСheck = 'X';
+                if (WinCheck(ValuesInPlayingField, SignСheck))
                 {
                     GameOver = true;
                     break;
                 }
-                CounterToDraw += 1;
+                CounterToDraw++;
                 if (CounterToDraw == FieldSize * FieldSize)
                 {
-                    Console.WriteLine("Ничья!! =(");
+                    Console.WriteLine("Ничья!!! =(");
                     break;
                 }
 
-                check = false;
+                IsCellFree = false;
                 do
                 {
                     Console.WriteLine("\nХодит второй игрок!");
                     Console.Write("\nВведите координату по вертикали: ");
-                    x = int.Parse(Console.ReadLine());
+                    VerticalCoordinate = int.Parse(Console.ReadLine());
                     Console.WriteLine();
                     Console.Write("Введите координату по горизонтали: ");
-                    y = int.Parse(Console.ReadLine());
-                    if (myArray[x - 1, y - 1] == '\0')
+                    HorizontalСoordinate = int.Parse(Console.ReadLine());
+                    if (CheckIsCellFree(ValuesInPlayingField, VerticalCoordinate, HorizontalСoordinate))
                     {
-                        check = true;
-                        myArray[x - 1, y - 1] = 'O';
+                        ValuesInPlayingField[VerticalCoordinate - 1, HorizontalСoordinate - 1] = 'O';
                     }
 
-                } while (check == false);
+                } while (IsCellFree == false);
 
                 Console.Clear();
-                PlayingField(FieldSize, myArray);
-                Znak = 'O';
-                Win = CheckWin(myArray, Znak);
-                if (Win == true)
+                DrawingPlayingField(FieldSize, ValuesInPlayingField);
+                SignСheck = 'O';
+                if (WinCheck(ValuesInPlayingField, SignСheck))
                 {
                     GameOver = true;
                     break;
                 }
-                CounterToDraw += 1;
+                CounterToDraw++;
 
             } while (GameOver == false);
-            if (Znak == 'O')
+            if (SignСheck == 'O')
             {
                 Console.WriteLine("Победил второй игрок!!!!");
             }
