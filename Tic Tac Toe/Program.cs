@@ -111,8 +111,13 @@ namespace Tic_Tac_Toe
             char[,] ValuesInPlayingField;
             bool GameOver = false;
             bool IsCellFree = false;
-            Console.WriteLine("Введите размер поля, для игры: ");
-            FieldSize = int.Parse(Console.ReadLine());
+            
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("Введите размер поля, для игры: ");
+                int.TryParse(Console.ReadLine(), out FieldSize);
+            } while (FieldSize == 0);
             Console.Clear();
             ValuesInPlayingField = new char[FieldSize, FieldSize];
             DrawingPlayingField(FieldSize,ValuesInPlayingField);
@@ -123,13 +128,21 @@ namespace Tic_Tac_Toe
                 do
                 {
                     Console.WriteLine("\nХодит первый игрок!");
-                    Console.Write("\nВведите координату по вертикали: ");
-                    VerticalCoordinate = int.Parse(Console.ReadLine());
+                    
+                    do
+                    {
+                        Console.Write("\nВведите координату по вертикали: ");
+                        int.TryParse(Console.ReadLine(), out VerticalCoordinate);
+                    } while (VerticalCoordinate == 0 || VerticalCoordinate > FieldSize);
                     Console.WriteLine();
-                    Console.Write("Введите координату по горизонтали: ");
-                    HorizontalСoordinate = int.Parse(Console.ReadLine());
+                    do
+                    {
+                        Console.Write("Введите координату по горизонтали: ");
+                        int.TryParse(Console.ReadLine(), out HorizontalСoordinate);
+                    } while (HorizontalСoordinate == 0 || HorizontalСoordinate > FieldSize);
                     if (CheckIsCellFree(ValuesInPlayingField, VerticalCoordinate, HorizontalСoordinate))
                     {
+                        IsCellFree = true;
                         ValuesInPlayingField[VerticalCoordinate - 1, HorizontalСoordinate - 1] = 'X';
                     }
                 } while (IsCellFree == false);
@@ -153,13 +166,20 @@ namespace Tic_Tac_Toe
                 do
                 {
                     Console.WriteLine("\nХодит второй игрок!");
-                    Console.Write("\nВведите координату по вертикали: ");
-                    VerticalCoordinate = int.Parse(Console.ReadLine());
+                    do
+                    {
+                        Console.Write("\nВведите координату по вертикали: ");
+                        int.TryParse(Console.ReadLine(), out VerticalCoordinate);
+                    } while (VerticalCoordinate == 0 || VerticalCoordinate > FieldSize);
                     Console.WriteLine();
-                    Console.Write("Введите координату по горизонтали: ");
-                    HorizontalСoordinate = int.Parse(Console.ReadLine());
+                    do
+                    {
+                        Console.Write("Введите координату по горизонтали: ");
+                        int.TryParse(Console.ReadLine(), out HorizontalСoordinate);
+                    } while (HorizontalСoordinate == 0 || HorizontalСoordinate > FieldSize);
                     if (CheckIsCellFree(ValuesInPlayingField, VerticalCoordinate, HorizontalСoordinate))
                     {
+                        IsCellFree = true;
                         ValuesInPlayingField[VerticalCoordinate - 1, HorizontalСoordinate - 1] = 'O';
                     }
 
