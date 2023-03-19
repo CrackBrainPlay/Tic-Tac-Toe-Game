@@ -145,7 +145,7 @@ namespace Tic_Tac_Toe
                 CounterToDraw += 1;
                 if (CounterToDraw == FieldSize * FieldSize)
                 {
-                    Console.WriteLine("Ничья! =(");
+                    Console.WriteLine("Ничья!! =(");
                     break;
                 }
 
