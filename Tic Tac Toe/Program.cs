@@ -111,13 +111,14 @@ namespace Tic_Tac_Toe
             char[,] ValuesInPlayingField;
             bool GameOver = false;
             bool IsCellFree = false;
-            
+
             do
             {
                 Console.Clear();
-                Console.WriteLine("Введите размер поля, для игры: ");
+                Console.WriteLine("Условия размера поля, оно не должно быть меньше 3 и боле 20");
+                Console.Write("\nВведите размер поля, для игры: ");
                 int.TryParse(Console.ReadLine(), out FieldSize);
-            } while (FieldSize == 0);
+            } while (FieldSize == 0 || FieldSize <= 3 || FieldSize >= 20);
             Console.Clear();
             ValuesInPlayingField = new char[FieldSize, FieldSize];
             DrawingPlayingField(FieldSize,ValuesInPlayingField);
@@ -196,6 +197,7 @@ namespace Tic_Tac_Toe
                 CounterToDraw++;
 
             } while (GameOver == false);
+
             if (SignСheck == 'O')
             {
                 Console.WriteLine("Победил второй игрок!!!!");
