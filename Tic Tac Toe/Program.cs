@@ -102,15 +102,50 @@ namespace Tic_Tac_Toe
                 
         }
 
+        static void CoordinateAssignment(int FieldSize, ref int VerticalCoordinate, ref int HorizontalСoordinate)
+        {
+                do
+                {
+                    Console.Write("\nВведите координату по вертикали: ");
+                    int.TryParse(Console.ReadLine(), out VerticalCoordinate);
+                } while (VerticalCoordinate == 0 || VerticalCoordinate > FieldSize);
+                Console.WriteLine();
+                do
+                {
+                    Console.Write("Введите координату по горизонтали: ");
+                    int.TryParse(Console.ReadLine(), out HorizontalСoordinate);
+                } while (HorizontalСoordinate == 0 || HorizontalСoordinate > FieldSize);
+        }
+
+        static void MovePlayer(int FieldSize, ref int VerticalCoordinate, ref int HorizontalСoordinate, ref int CounterToDraw, ref char[,] ValuesInPlayingField)
+        {
+            char PlayerName = 'O';
+            bool IsCellFree = false;
+            if (CounterToDraw % 2 != 0)
+            {
+                PlayerName = 'X';
+            }
+            do
+                {
+                    Console.WriteLine($"\nХодит {PlayerName} игрок!");
+                    CoordinateAssignment(FieldSize, ref VerticalCoordinate, ref HorizontalСoordinate);
+                    if (CheckIsCellFree(ValuesInPlayingField, VerticalCoordinate, HorizontalСoordinate))
+                    {
+                        IsCellFree = true;
+                        ValuesInPlayingField[VerticalCoordinate - 1, HorizontalСoordinate - 1] = PlayerName;
+                    }
+                } while (IsCellFree == false);
+            CounterToDraw += 1;
+        }
+
             static void Main(string[] args)
         {
             int FieldSize;
-            int CounterToDraw = 0;
-            int VerticalCoordinate, HorizontalСoordinate;
+            int CounterToDraw = 1;
+            int VerticalCoordinate = 0, HorizontalСoordinate = 0;
             char SignСheck;
             char[,] ValuesInPlayingField;
             bool GameOver = false;
-            bool IsCellFree = false;
 
             do
             {
@@ -118,7 +153,7 @@ namespace Tic_Tac_Toe
                 Console.WriteLine("Условия размера поля, оно не должно быть меньше 3 и боле 20");
                 Console.Write("\nВведите размер поля, для игры: ");
                 int.TryParse(Console.ReadLine(), out FieldSize);
-            } while (FieldSize == 0 || FieldSize <= 3 || FieldSize >= 20);
+            } while (FieldSize == 0 || FieldSize <= 2 || FieldSize >= 21);
             Console.Clear();
             ValuesInPlayingField = new char[FieldSize, FieldSize];
             DrawingPlayingField(FieldSize,ValuesInPlayingField);
@@ -126,27 +161,7 @@ namespace Tic_Tac_Toe
 
             do
             {
-                do
-                {
-                    Console.WriteLine("\nХодит первый игрок!");
-                    
-                    do
-                    {
-                        Console.Write("\nВведите координату по вертикали: ");
-                        int.TryParse(Console.ReadLine(), out VerticalCoordinate);
-                    } while (VerticalCoordinate == 0 || VerticalCoordinate > FieldSize);
-                    Console.WriteLine();
-                    do
-                    {
-                        Console.Write("Введите координату по горизонтали: ");
-                        int.TryParse(Console.ReadLine(), out HorizontalСoordinate);
-                    } while (HorizontalСoordinate == 0 || HorizontalСoordinate > FieldSize);
-                    if (CheckIsCellFree(ValuesInPlayingField, VerticalCoordinate, HorizontalСoordinate))
-                    {
-                        IsCellFree = true;
-                        ValuesInPlayingField[VerticalCoordinate - 1, HorizontalСoordinate - 1] = 'X';
-                    }
-                } while (IsCellFree == false);
+                MovePlayer(FieldSize, ref VerticalCoordinate, ref HorizontalСoordinate, ref CounterToDraw, ref ValuesInPlayingField);
                 Console.Clear();
                 DrawingPlayingField(FieldSize, ValuesInPlayingField);
                 Console.WriteLine();
@@ -156,35 +171,12 @@ namespace Tic_Tac_Toe
                     GameOver = true;
                     break;
                 }
-                CounterToDraw++;
                 if (CounterToDraw == FieldSize * FieldSize)
                 {
                     Console.WriteLine("Ничья!!! =(");
                     break;
                 }
-
-                IsCellFree = false;
-                do
-                {
-                    Console.WriteLine("\nХодит второй игрок!");
-                    do
-                    {
-                        Console.Write("\nВведите координату по вертикали: ");
-                        int.TryParse(Console.ReadLine(), out VerticalCoordinate);
-                    } while (VerticalCoordinate == 0 || VerticalCoordinate > FieldSize);
-                    Console.WriteLine();
-                    do
-                    {
-                        Console.Write("Введите координату по горизонтали: ");
-                        int.TryParse(Console.ReadLine(), out HorizontalСoordinate);
-                    } while (HorizontalСoordinate == 0 || HorizontalСoordinate > FieldSize);
-                    if (CheckIsCellFree(ValuesInPlayingField, VerticalCoordinate, HorizontalСoordinate))
-                    {
-                        IsCellFree = true;
-                        ValuesInPlayingField[VerticalCoordinate - 1, HorizontalСoordinate - 1] = 'O';
-                    }
-
-                } while (IsCellFree == false);
+                MovePlayer(FieldSize, ref VerticalCoordinate, ref HorizontalСoordinate, ref CounterToDraw, ref ValuesInPlayingField);
 
                 Console.Clear();
                 DrawingPlayingField(FieldSize, ValuesInPlayingField);
@@ -194,7 +186,6 @@ namespace Tic_Tac_Toe
                     GameOver = true;
                     break;
                 }
-                CounterToDraw++;
 
             } while (GameOver == false);
 
