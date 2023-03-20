@@ -8,7 +8,7 @@ namespace Tic_Tac_Toe
 {  
     internal class Program
     {
-        static void DrawingPlayingField(int FieldSize, char[,] ValuesInPlayingField)
+        static void RenderPlayingField(int FieldSize, char[,] ValuesInPlayingField)
         {
             Console.Write("  ");
             for (int j = 0; j < FieldSize; j++)
@@ -156,14 +156,14 @@ namespace Tic_Tac_Toe
             } while (FieldSize == 0 || FieldSize <= 2 || FieldSize >= 21);
             Console.Clear();
             ValuesInPlayingField = new char[FieldSize, FieldSize];
-            DrawingPlayingField(FieldSize,ValuesInPlayingField);
+            RenderPlayingField(FieldSize,ValuesInPlayingField);
             Console.WriteLine();
 
             do
             {
                 MovePlayer(FieldSize, ref VerticalCoordinate, ref HorizontalСoordinate, ref CounterToDraw, ref ValuesInPlayingField);
                 Console.Clear();
-                DrawingPlayingField(FieldSize, ValuesInPlayingField);
+                RenderPlayingField(FieldSize, ValuesInPlayingField);
                 Console.WriteLine();
                 SignСheck = 'X';
                 if (WinCheck(ValuesInPlayingField, SignСheck))
@@ -179,7 +179,7 @@ namespace Tic_Tac_Toe
                 MovePlayer(FieldSize, ref VerticalCoordinate, ref HorizontalСoordinate, ref CounterToDraw, ref ValuesInPlayingField);
 
                 Console.Clear();
-                DrawingPlayingField(FieldSize, ValuesInPlayingField);
+                RenderPlayingField(FieldSize, ValuesInPlayingField);
                 SignСheck = 'O';
                 if (WinCheck(ValuesInPlayingField, SignСheck))
                 {
